@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
@@ -6,10 +7,10 @@ const Header = () => {
       <div className="ui big header item">Focus App</div>
 
       <div className="right menu">
-        <button className=" ui button">
+        <Link to="/settings" className="ui button">
           <i className="cog icon"></i>
           Settings
-        </button>
+        </Link>
         <button className="ui google plus button">
           <i className="google icon"></i>
           Login with Google
