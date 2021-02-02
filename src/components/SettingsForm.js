@@ -8,7 +8,10 @@ import { updateSettings } from "../actions";
 
 class SettingsForm extends React.Component {
   onFormSubmit = (values) => {
-    console.log(values);
+    // mutating values obj so all values are numbers rather than strings
+    for (let [key, value] of Object.entries(values)) {
+      values[key] = +value;
+    }
     this.props.updateSettings(values);
     history.push("/");
   };

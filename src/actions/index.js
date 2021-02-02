@@ -4,3 +4,10 @@ export const updateSettings = (settings) => {
     payload: settings,
   };
 };
+
+export const updateActiveMenu = (activeMenu) => {
+  return {
+    type: "UPDATE_ACTIVE_MENU",
+    payload: activeMenu,
+  };
+};
