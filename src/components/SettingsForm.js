@@ -22,12 +22,9 @@ class SettingsForm extends React.Component {
         <h5 className="ui header">Time (minutes)</h5>
 
         <Form
-          initialValues={{
-            focus: this.props.settings.focus,
-            shortBreak: this.props.settings.shortBreak,
-            longBreak: this.props.settings.longBreak,
-          }}
+          initialValues={this.props.settings}
           onSubmit={this.onFormSubmit}
+          validate={this.validate}
           render={({ handleSubmit }) => {
             return (
               <form className="ui form" onSubmit={handleSubmit}>
@@ -81,6 +78,17 @@ class SettingsForm extends React.Component {
         onDismiss={() => history.push("/")}
       />
     );
+  }
+
+  validate(values) {
+    const errors = {};
+    if (Object.values(values).join("").includes(".")) {
+      errors.decimal = "No decimals";
+    }
+    if (Object.values(values).find((val) => val < 0)) {
+      errors.negative = "No negatives";
+    }
+    return errors;
   }
 }
 
