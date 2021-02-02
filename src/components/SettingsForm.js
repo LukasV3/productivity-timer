@@ -1,14 +1,17 @@
 import React from "react";
 import { Form, Field } from "react-final-form";
+import { connect } from "react-redux";
 
 import Modal from "./Modal";
 import history from "../history";
+import { updateSettings } from "../actions";
 
-class Settings extends React.Component {
-  onFormSubmit(values) {
-    history.push("/");
+class SettingsForm extends React.Component {
+  onFormSubmit = (values) => {
     console.log(values);
-  }
+    this.props.updateSettings(values);
+    history.push("/");
+  };
 
   renderForm() {
     return (
@@ -16,6 +19,11 @@ class Settings extends React.Component {
         <h5 className="ui header">Time (minutes)</h5>
 
         <Form
+          initialValues={{
+            focus: this.props.settings.focus,
+            shortBreak: this.props.settings.shortBreak,
+            longBreak: this.props.settings.longBreak,
+          }}
           onSubmit={this.onFormSubmit}
           render={({ handleSubmit }) => {
             return (
@@ -27,7 +35,7 @@ class Settings extends React.Component {
                 <div className="ui field labeled input ">
                   <div className="ui label">Short Break</div>
                   <Field
-                    name="short break"
+                    name="shortBreak"
                     component="input"
                     type="number"
                     placeholder="10"
@@ -36,7 +44,7 @@ class Settings extends React.Component {
                 <div className="ui field labeled input ">
                   <div className="ui label">Long Break</div>
                   <Field
-                    name="long break"
+                    name="longBreak"
                     component="input"
                     type="number"
                     placeholder="10"
@@ -73,4 +81,8 @@ class Settings extends React.Component {
   }
 }
 
-export default Settings;
+const mapStateToProps = (state) => {
+  return { settings: state.settings };
+};
+
+export default connect(mapStateToProps, { updateSettings })(SettingsForm);
