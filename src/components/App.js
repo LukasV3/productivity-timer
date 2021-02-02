@@ -3,7 +3,7 @@ import { Router, Route } from "react-router-dom";
 
 import Header from "./Header";
 import Timer from "./Timer";
-import Settings from "./Settings";
+import SettingsForm from "./SettingsForm";
 import history from "../history";
 
 const App = () => {
@@ -13,7 +13,7 @@ const App = () => {
         <Header />
         <div className="ui divider"></div>
         <Timer />
-        <Route path="/settings" exact component={Settings} />
+        <Route path="/settings" exact component={SettingsForm} />
       </div>
     </Router>
   );
