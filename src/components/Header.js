@@ -7,10 +7,11 @@ const Header = () => {
       <div className="ui big header item">Focus App</div>
 
       <div className="right menu">
-        <Link to="/settings" className="ui button">
+        <Link to="/settings" className="ui item">
           <i className="cog icon"></i>
           Settings
         </Link>
+
         <button className="ui google plus button">
           <i className="google icon"></i>
           Login with Google

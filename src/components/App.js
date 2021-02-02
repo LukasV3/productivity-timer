@@ -8,14 +8,14 @@ import history from "../history";
 
 const App = () => {
   return (
-    <div className="ui text container" style={{ marginTop: "15px" }}>
-      <Router history={history}>
+    <Router history={history}>
+      <div className="ui text container" style={{ marginTop: "15px" }}>
         <Header />
         <div className="ui divider"></div>
         <Timer />
         <Route path="/settings" exact component={Settings} />
-      </Router>
-    </div>
+      </div>
+    </Router>
   );
 };
 
