@@ -5,11 +5,16 @@ import _ from "lodash";
 import { updateActiveMenu } from "../actions";
 
 const Timer = (props) => {
+  const onMenuClick = (menu) => {
+    if (props.activeMenu === menu) return;
+    props.updateActiveMenu(menu);
+  };
+
   const renderMenuButtons = () => {
     return ["focus", "shortBreak", "longBreak"].map((menu, i) => {
       const className = menu === props.activeMenu ? "ui button active" : "ui button";
       return (
-        <div onClick={() => props.updateActiveMenu(menu)} className={className} key={i}>
+        <div onClick={() => onMenuClick(menu)} className={className} key={i}>
           {_.startCase(menu)}
         </div>
       );
