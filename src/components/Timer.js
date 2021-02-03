@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import _ from "lodash";
+import _, { startCase } from "lodash";
+import Countdown, { zeroPad } from "react-countdown";
 
 import { updateActiveMenu } from "../actions";
 
 const Timer = (props) => {
-  const [time, setTime] = useState("");
   const [timerActive, setTimerActive] = useState(false);
+  const [time, setTime] = useState(0);
+  const timerRef = React.createRef();
 
   const onMenuClick = (menu) => {
     if (props.activeMenu === menu) return;
@@ -24,39 +26,44 @@ const Timer = (props) => {
     });
   };
 
-  const startCountdown = (duration) => {
-    setTimerActive(true);
+  const onCountdownClick = () => {
+    const api = timerRef.current.getApi();
 
-    const start = Date.now();
-
-    function timer() {
-      let diff = duration * 60 - (((Date.now() - start) / 1000) | 0);
-
-      let minutes = (diff / 60) | 0;
-      let seconds = diff % 60 | 0;
-
-      // minutes = minutes < 10 ? `0${minutes}` : minutes;
-      seconds = seconds < 10 ? `0${seconds}` : seconds;
-
-      setTime(`${minutes}:${seconds}`);
-      if (minutes === "00" && seconds === "00") {
-        clearInterval(interval);
-      }
+    if (!timerActive) {
+      api.start();
+      setTimerActive(!timerActive);
+    } else {
+      api.stop();
+      setTimerActive(!timerActive);
     }
-    timer();
-    const interval = setInterval(timer, 1000);
+  };
+
+  const renderer = ({ hours, minutes, seconds, completed }) => {
+    if (completed) {
+      return "00.00";
+    } else {
+      // Render a countdown
+      return (
+        <span>
+          {hours}:{minutes}:{seconds}
+        </span>
+      );
+    }
   };
 
   return (
     <div className="ui center aligned container" style={{ marginTop: "20px" }}>
       <div className="ui basic buttons">{renderMenuButtons()}</div>
       <div className="ui header" style={{ fontSize: "6rem", margin: "30px" }}>
-        {timerActive ? time : `${props.settings[props.activeMenu]}:00`}
+        <Countdown
+          date={Date.now() + props.settings[props.activeMenu] * 60 * 1000}
+          renderer={renderer}
+          autoStart={false}
+          ref={timerRef}
+          controlled={false}
+        />
       </div>
-      <button
-        onClick={() => startCountdown(props.settings[props.activeMenu])}
-        className="ui huge basic black button"
-      >
+      <button onClick={() => onCountdownClick()} className="ui huge basic black button">
         {timerActive ? "STOP" : "START"}
       </button>
     </div>
